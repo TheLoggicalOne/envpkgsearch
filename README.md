@@ -1,7 +1,10 @@
 ## Starting
-### goal
-I have many versions of python and virtual environments created by pyenv(or even conda and venv).
-I want to search different python version and environments for some packages.
+### goal, motivation and main use cases
+I have many versions of python and virtual environments created by pyenv and conda and possibly  
+ venv and virtualenv(or other tools!), for many reason, I need to search in all of them to see if   
+ given pkgs are installed and for which python versions and in which env 
+
+So I want to search different python version and environments for some packages.
 Do we have a tool or script for this? seems like we dont, so lets create it
 - we are searching our installed python versions and environments and we call them env and version for simplicity
     - note that each version could have many environments too
