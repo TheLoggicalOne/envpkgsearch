@@ -31,5 +31,8 @@ Do we have a tool or script for this? seems like we dont, so lets create it
         - trying to import it, and use the result of this
     - looking into file system and find directories related to different env and versions and find  
     directories of installed pkgs and search in them
+- maybe the best idea is to do the searching through file system, and test it by directly  
+activating related python versions/envs and checking if the things find through searching is right
+
 
 
