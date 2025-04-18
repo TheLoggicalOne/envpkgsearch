@@ -33,6 +33,18 @@ Do we have a tool or script for this? seems like we dont, so lets create it
     directories of installed pkgs and search in them
 - maybe the best idea is to do the searching through file system, and test it by directly  
 activating related python versions/envs and checking if the things find through searching is right
+- important point: we could(and probaly should) record the information about different python envs  
+and their location and their installed package directories
+- keep a list of python envs
+- for each python env, we could also keep more information:
+    - where is its bin executable
+    - its prefix and base bin executable and weather it is a venv
+    - which app has created it(pyenv, conda, pythn venv or even virtualenv)
+    - its installation type and directories of its installed package, specially site-packages
+    - its lib directory location and its sys.path
+    - weather it is user installation and its userbase and user site
+    - 
 
+- we could have function to update our information about envs
 
 
