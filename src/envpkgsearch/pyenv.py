@@ -1,6 +1,7 @@
 # src/envpkgsearch/envs/pyenv.py
 import os
 from pathlib import Path
+import pandas as pd
 
 # This is the default path for pyenv installations.
 # we are also making following assumings about the versions directory(which is the default behavior  
@@ -15,18 +16,33 @@ PYENV_VERSIONS_DIR = PYENV_ROOT / PYENV_VERSIONS_DIR_NAME
 
 # prefixes are dirs inside the versions dir
 # and each prefix is a python version or env installed by pyenv
-# here we are assuming that the python binary is inside the bin directory of the   
-# version directory with the name "python"
+# here we are assuming following structure for python inside each prefix:
+# prefix/
+#   ├── bin
+#   │   ├── python -> python3.x or base_prefix/bin/python3.x(which is base_in_path)
+#   │   └── python3
+#   ├── lib
+#   │   └── python3.x/site-packages
+#   └── pyvenv.cfg
 class PythonEnv():
     def __init__(self, prefix):
         self.prefix = prefix
         self.name: str = self.prefix.name
         self.bin_path = Path(self.prefix) / "bin" / "python"
+        self.base_bin_path: Path = self.bin_path.resolve()
+        # self.base_bin_name: str = self.base_bin_path.name
+        self.base_prefix = self.base_bin_path.parent.parent
         self.creator: str = "pyenv"
         self.is_venv: bool = self.prefix.is_symlink()
-    
+        self.site_packages: Path = self.prefix / "lib" / self.base_bin_path.name / "site-packages"
     def __repr__(self):
-        return f"PythonEnv(name={self.name}, bin_path={self.bin_path}, creator={self.creator}, is_venv={self.is_venv})"
+        return f"PythonEnv(name={self.name}, bin_path={self.bin_path}, creator={self.creator}, is_venv={self.is_venv}"
+
+    def get_bin_base_path(self):
+        pass
+        
+
+
 
 
 # # This function returns a list of dictionaries representing the pyenv environments.
@@ -39,7 +55,7 @@ class PythonEnv():
 #             if python_bin.exists():
 #                 envs.append({"name": version.name, "type": "pyenv", "path": python_bin})
 #     return envs
-
+ 
 
 class PyenvPathConfig():
 
@@ -61,3 +77,6 @@ if __name__ == "__main__":
     print(f"Pyenv root: {dppc.pyenv_root}")
     print(f"Versions dir: {dppc.versions_dir}")
     print(f"Python prefixes: {dppc.python_prefixes}")  
+    python_envs_data = [env.__dict__ for env in envs]
+    df = pd.DataFrame(python_envs_data)  
+    print(df)
