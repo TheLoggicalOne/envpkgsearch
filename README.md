@@ -48,3 +48,21 @@ and their location and their installed package directories
 - we could have function to update our information about envs
 
 
+## Design and architecture
+### Environment class
+- lets have Environment class, to manage important info about each python version or environment
+#### features
+- add to_dict and from_dict method to make saving and loading each environment info easy
+- save and load to a cache file, in json format
+- I want different ways of finding info of each env(instance of Environment class)
+    - by activating the env python using a suprocess
+    - by searching file system 
+    - populate env attributes ased on installation scheme used for env(according to python doc)
+        - One common structure is # prefix/
+        - prefix
+            - bin
+                - python -> python3.x or base_prefix/bin/python3.x(which is base_in_path)
+            - lib
+                - python3.x
+                    - site-packages
+            - pyenv.cfg
