@@ -1,4 +1,5 @@
 # pyscan/utils.py
+import json
 import subprocess
 import sys
 import os # Added os import for potential path checks in the future, though not strictly needed for current run_subprocess
@@ -56,6 +57,16 @@ def run_subprocess(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
         # would raise subprocess.CalledProcessError right here.
         # If check=False, we would need to manually check result.returncode here
         # if we wanted to treat non-zero exit codes as errors.
+        
+        # If Use json_output=True was passed, we assume the command returns JSON output
+        if kwargs.get("json_output", False):
+            try:
+                # Attempt to parse the JSON output
+                result.stdout = json.loads(result.stdout)
+            except json.JSONDecodeError as e:
+                print(f"Failed to parse JSON output: {e}", file=sys.stderr)
+                raise
+
 
         # Return the result object on success (or if check=False and command failed)
         return result
